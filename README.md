@@ -1,1 +1,2 @@
-# SkyFetch---API-Weather-Dashboard-Part-1
+# recipejs-functional-cooking
+A functional programming approach to a recipe companion app
