@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>SkyFetch Weather Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+const apiKey = "YOUR_API_KEY_HERE";
 
-  <div class="container">
-    <h1>🌤 SkyFetch</h1>
-    
-    <div class="weather-card">
-      <h2 id="city">City</h2>
-      <img id="weather-icon" src="" alt="Weather Icon">
-      <p id="temperature">Temperature</p>
-      <p id="description">Description</p>
-    </div>
-  </div>
+function fetchWeather(city) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-  <!-- Axios CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  axios.get(url)
+    .then(function(response) {
+      console.log("Weather Data:", response.data);
+      displayWeather(response.data);
+    })
+    .catch(function(error) {
+      console.error("Error fetching weather:", error);
+    });
+}
 
-  <!-- App JS -->
-  <script src="app.js"></script>
+function displayWeather(data) {
+  document.getElementById("city").innerText = data.name;
+  document.getElementById("temperature").innerText = `🌡 ${data.main.temp} °C`;
+  document.getElementById("description").innerText = `☁ ${data.weather[0].description}`;
 
-</body>
-</html>
+  const iconCode = data.weather[0].icon;
+  const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  document.getElementById("weather-icon").src = iconUrl;
+}
+
+// Fetch London weather by default
+fetchWeather("London");
